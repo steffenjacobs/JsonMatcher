@@ -1,15 +1,20 @@
 package me.steffenjacobs.syntacticjsonmatcher;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.junit.Ignore;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,58 +25,99 @@ import me.steffenjacobs.syntacticjsonmatcher.service.PrintingService;
 /** @author Steffen Jacobs */
 public class TestMapper {
 
-	private final Logger LOG = LoggerFactory.getLogger(TestMapper.class);
-	private final PrintingService printingService = new PrintingService();
+	private static final Logger LOG = LoggerFactory.getLogger(TestMapper.class);
 
 	private static final boolean SHOW_JSON = false;
-	private static final boolean PRINT = true;
+	private static final boolean PRINT = false;
+	private static final boolean PRINT_ERRORS = true;
 
-	@Ignore
+	private static final Map<String, List<String>> allowedMappings = new HashMap<>();
+	private static final PrintingService printingService = new PrintingService();
+
+	@BeforeClass
+	public static void initAllowedMappings() {
+		List<String> allowedTemperatures = Arrays.asList("t", "tp", "temp", "temperature", "temperatura", "temperatur", "Temperatur");
+		List<String> allowedHumidities = Arrays.asList("h", "hm", "hum", "humidity", "Luftfeuchtigkeit", "Luftfeuchte", "luftfeuchte", "humedad");
+
+		for (String temp : allowedTemperatures) {
+			allowedMappings.put(temp, allowedTemperatures);
+		}
+
+		for (String hum : allowedHumidities) {
+			allowedMappings.put(hum, allowedHumidities);
+		}
+	}
+
 	@Test
-	public void testMapping() {
+	public void testMappingReflexive() {
 		Mapper mapper = new Mapper();
 		final String source = "{\"temperature\": 25, \"humidity\": 55}";
 		final String target = source;
 		Collection<MappingDTO<Object, Object>> mappings = mapper.map(source, source);
 		for (MappingDTO<Object, Object> mapping : mappings) {
 			println(printingService.mappingToString(source, target, mapping, SHOW_JSON));
+			assertTrue(isMappingAllowed(mapping));
 		}
 	}
 
-	@Ignore
 	@Test
-	public void testMapping2() {
+	public void testMappingValuesIntToFloat() {
 		Mapper mapper = new Mapper();
 		final String source = "{\"temperature\": 25, \"humidity\": 55}";
 		final String target = "{\"temperature\": 25, \"humidity\": 55.5}";
 		Collection<MappingDTO<Object, Object>> mappings = mapper.map(source, source);
 		for (MappingDTO<Object, Object> mapping : mappings) {
 			println(printingService.mappingToString(source, target, mapping, SHOW_JSON));
+			assertTrue(isMappingAllowed(mapping));
 		}
 	}
 
-//	@Ignore
+	@Test
+	public void testMappingValuesStringToNumber() {
+		Mapper mapper = new Mapper();
+		final String source = "{\"temperature\": \"25\", \"humidity\": \"55\"}";
+		final String target = "{\"temperature\": 25, \"humidity\": 55.5}";
+		Collection<MappingDTO<Object, Object>> mappings = mapper.map(source, source);
+		for (MappingDTO<Object, Object> mapping : mappings) {
+			println(printingService.mappingToString(source, target, mapping, SHOW_JSON));
+			assertTrue(isMappingAllowed(mapping));
+		}
+	}
+
+	@Test
+	public void testMappingValuesNumberToString() {
+		Mapper mapper = new Mapper();
+		final String source = "{\"temperature\": 25, \"humidity\": 55}";
+		final String target = "{\"temperature\": \"25\", \"humidity\": \"55.5\"}";
+		Collection<MappingDTO<Object, Object>> mappings = mapper.map(source, source);
+		for (MappingDTO<Object, Object> mapping : mappings) {
+			println(printingService.mappingToString(source, target, mapping, SHOW_JSON));
+			assertTrue(isMappingAllowed(mapping));
+		}
+	}
+
 	@Test
 	public void testTemperatureAndHumidtyMapping() throws IOException, URISyntaxException {
 		testForList("temperatureHumidity.lst");
 	}
 
-//	 @Ignore
 	@Test
 	public void testTemperatureAndHumidtyMapping2() throws IOException, URISyntaxException {
 		testForList("temperatureHumidity2.lst");
 	}
 
-	@Ignore
 	@Test
 	public void testTemperatureAndHumidtyMapping3() throws IOException, URISyntaxException {
 		testForList("temperatureHumidity3.lst");
 	}
 
-	@Ignore
 	@Test
 	public void testTemperatureMapping() throws IOException, URISyntaxException {
 		testForList("temperature.lst");
+	}
+
+	private boolean isMappingAllowed(MappingDTO<Object, Object> mapping) {
+		return allowedMappings.get(mapping.getKeySource()).contains(mapping.getKeyTarget());
 	}
 
 	public void testForList(String listFile) throws IOException, URISyntaxException {
@@ -88,6 +134,14 @@ public class TestMapper {
 				Collection<MappingDTO<Object, Object>> mappings = mapper.map(line, line2);
 				for (MappingDTO<Object, Object> mapping : mappings) {
 					println(printingService.mappingToString(line, line2, mapping, SHOW_JSON));
+					try {
+						assertTrue(isMappingAllowed(mapping));
+					} catch (AssertionError error) {
+						if (PRINT_ERRORS) {
+							System.out.println("Bad mapping: " + mapping.getKeySource() + " -> " + mapping.getKeyTarget());
+							throw error;
+						}
+					}
 				}
 				println("--");
 			}
