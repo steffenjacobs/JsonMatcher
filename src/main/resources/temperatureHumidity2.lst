@@ -1,0 +1,63 @@
+{"temperature": 25, "humidity": 55}
+{"temperature": 25.1, "humidity": 55.1}
+{"temperature": "25", "humidity": "55"}
+{"temperature": "25.1", "humidity": "55.1"}
+{"temperature": "25°C", "humidity": "55%"}
+{"temperature": "25°F", "humidity": "55%"}
+{"temperature": "25.1°C", "humidity": "55.1%"}
+
+{"tp": 25, "humidity": 55}
+{"temp": 25.1, "humidity": 55.1}
+{"temperatura": "25", "humidity": "55"}
+{"temperatur": "25.1", "humidity": "55.1"}
+{"Temperatur": "25°C", "humidity": "55%"}
+{"t": "25°F", "humidity": "55%"}
+{"tp": "25.1°C", "humidity": "55.1%"}
+
+{"tp": 25, "h": 55}
+{"temp": 25.1, "h": 55.1}
+{"temperatura": "25", "h": "55"}
+{"temperatur": "25.1", "h": "55.1"}
+{"Temperatur": "25°C", "h": "55%"}
+{"t": "25°F", "h": "55%"}
+{"tp": "25.1°C", "h": "55.1%"}
+
+{"tp": 25, "hm": 55}
+{"temp": 25.1, "hm": 55.1}
+{"temperatura": "25", "hm": "55"}
+{"temperatur": "25.1", "hm": "55.1"}
+{"Temperatur": "25°C", "hm": "55%"}
+{"t": "25°F", "hm": "55%"}
+{"tp": "25.1°C", "hm": "55.1%"}
+
+{"tp": 25, "hum": 55}
+{"temp": 25.1, "hum": 55.1}
+{"temperatura": "25", "hum": "55"}
+{"temperatur": "25.1", "hum": "55.1"}
+{"Temperatur": "25°C", "hum": "55%"}
+{"t": "25°F", "hum": "55%"}
+{"tp": "25.1°C", "hum": "55.1%"}
+
+{"tp": 25, "Luftfeuchtigkeit": 55}
+{"temp": 25.1, "Luftfeuchtigkeit": 55.1}
+{"temperatura": "25", "Luftfeuchtigkeit": "55"}
+{"temperatur": "25.1", "Luftfeuchtigkeit": "55.1"}
+{"Temperatur": "25°C", "Luftfeuchtigkeit": "55%"}
+{"t": "25°F", "Luftfeuchtigkeit": "55%"}
+{"tp": "25.1°C", "Luftfeuchtigkeit": "55.1%"}
+
+{"tp": 25, "luftfeuchte": 55}
+{"temp": 25.1, "luftfeuchte": 55.1}
+{"temperatura": "25", "luftfeuchte": "55"}
+{"temperatur": "25.1", "luftfeuchte": "55.1"}
+{"Temperatur": "25°C", "luftfeuchte": "55%"}
+{"t": "25°F", "luftfeuchte": "55%"}
+{"tp": "25.1°C", "luftfeuchte": "55.1%"}
+
+{"tp": 25, "humedad": 55}
+{"temp": 25.1, "humedad": 55.1}
+{"temperatura": "25", "humedad": "55"}
+{"temperatur": "25.1", "humedad": "55.1"}
+{"Temperatur": "25°C", "humedad": "55%"}
+{"t": "25°F", "humedad": "55%"}
+{"tp": "25.1°C", "humedad": "55.1%"}

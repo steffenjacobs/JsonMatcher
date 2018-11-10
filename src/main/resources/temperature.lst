@@ -1,0 +1,55 @@
+{"temperature": 25}
+{"temperature": 25.1}
+{"temperature": "25"}
+{"temperature": "25.1"}
+{"temperature": "25°C"}
+{"temperature": "25°F"}
+{"temperature": "25.1°C"}
+
+{"temperatur": 25}
+{"temperatur": 25.1}
+{"temperatur": "25"}
+{"temperatur": "25.1"}
+{"temperatur": "25°C"}
+{"temperatur": "25°F"}
+{"temperatur": "25.1°C"}
+
+{"Temperatur": 25}
+{"Temperatur": 25.1}
+{"Temperatur": "25"}
+{"Temperatur": "25.1"}
+{"Temperatur": "25°C"}
+{"Temperatur": "25°F"}
+{"Temperatur": "25.1°C"}
+
+{"temperatura": 25}
+{"temperatura": 25.1}
+{"temperatura": "25"}
+{"temperatura": "25.1"}
+{"temperatura": "25°C"}
+{"temperatura": "25°F"}
+{"temperatura": "25.1°C"}
+
+{"temp": 25}
+{"temp": 25.1}
+{"temp": "25"}
+{"temp": "25.1"}
+{"temp": "25°C"}
+{"temp": "25°F"}
+{"temp": "25.1°C"}
+
+{"t": 25}
+{"t": 25.1}
+{"t": "25"}
+{"t": "25.1"}
+{"t": "25°C"}
+{"t": "25°F"}
+{"t": "25.1°C"}
+
+{"tp": 25}
+{"tp": 25.1}
+{"tp": "25"}
+{"tp": "25.1"}
+{"tp": "25°C"}
+{"tp": "25°F"}
+{"tp": "25.1°C"}

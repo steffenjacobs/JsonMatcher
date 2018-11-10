@@ -1,0 +1,47 @@
+{"temperature": 25, "humidity": 55}
+{"temperature": 25.1, "humidity": 55}
+{"temperature": "25", "humidity": 55}
+{"temperature": "25.1", "humidity": 55}
+{"temperature": "25°C", "humidity": 55}
+{"temperature": "25°F", "humidity": 55}
+{"temperature": "25.1°C", "humidity": 55}
+
+{"temperature": 25, "humidity": 55.1}
+{"temperature": 25.1, "humidity": 55.1}
+{"temperature": "25", "humidity": 55.1}
+{"temperature": "25.1", "humidity": 55.1}
+{"temperature": "25°C", "humidity": 55.1}
+{"temperature": "25°F", "humidity": 55.1}
+{"temperature": "25.1°C", "humidity": 55.1}
+
+{"temperature": 25, "humidity": "55"}
+{"temperature": 25.1, "humidity": "55"}
+{"temperature": "25", "humidity": "55"}
+{"temperature": "25.1", "humidity": "55"}
+{"temperature": "25°C", "humidity": "55"}
+{"temperature": "25°F", "humidity": "55"}
+{"temperature": "25.1°C", "humidity": "55"}
+
+{"temperature": 25, "humidity": "55.1"}
+{"temperature": 25.1, "humidity": "55.1"}
+{"temperature": "25", "humidity": "55.1"}
+{"temperature": "25.1", "humidity": "55.1"}
+{"temperature": "25°C", "humidity": "55.1"}
+{"temperature": "25°F", "humidity": "55.1"}
+{"temperature": "25.1°C", "humidity": "55.1"}
+
+{"temperature": 25, "humidity": "55%"}
+{"temperature": 25.1, "humidity": "55%"}
+{"temperature": "25", "humidity": "55%"}
+{"temperature": "25.1", "humidity": "55%"}
+{"temperature": "25°C", "humidity": "55%"}
+{"temperature": "25°F", "humidity": "55%"}
+{"temperature": "25.1°C", "humidity": "55%"}
+
+{"temperature": 25, "humidity": "55.1%"}
+{"temperature": 25.1, "humidity": "55.1%"}
+{"temperature": "25", "humidity": "55.1%"}
+{"temperature": "25.1", "humidity": "55.1%"}
+{"temperature": "25°C", "humidity": "55.1%"}
+{"temperature": "25°F", "humidity": "55.1%"}
+{"temperature": "25.1°C", "humidity": "55.1%"}
