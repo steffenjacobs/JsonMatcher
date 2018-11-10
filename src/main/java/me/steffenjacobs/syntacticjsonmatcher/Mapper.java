@@ -48,7 +48,9 @@ public class Mapper {
 
 		Collection<Collection<MappingDTO<Object, Object>>> alternatives = computeAlternatives(mappings);
 
-		printingService.printAlternatives(alternatives);
+		if (DebugSettings.PRINT_ALTERNATIVES) {
+			printingService.printAlternatives(alternatives);
+		}
 
 		return findBestMappings(alternatives);
 	}

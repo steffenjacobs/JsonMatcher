@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import me.steffenjacobs.syntacticjsonmatcher.Mapper;
 import me.steffenjacobs.syntacticjsonmatcher.domain.MappingDTO;
 import me.steffenjacobs.syntacticjsonmatcher.service.PrintingService;
 
@@ -35,7 +34,7 @@ public class TestMapper {
 		final String target = source;
 		Collection<MappingDTO<Object, Object>> mappings = mapper.map(source, source);
 		for (MappingDTO<Object, Object> mapping : mappings) {
-			printingService.mappingToString(source, target, mapping, SHOW_JSON);
+			println(printingService.mappingToString(source, target, mapping, SHOW_JSON));
 		}
 	}
 
@@ -47,17 +46,17 @@ public class TestMapper {
 		final String target = "{\"temperature\": 25, \"humidity\": 55.5}";
 		Collection<MappingDTO<Object, Object>> mappings = mapper.map(source, source);
 		for (MappingDTO<Object, Object> mapping : mappings) {
-			printingService.mappingToString(source, target, mapping, SHOW_JSON);
+			println(printingService.mappingToString(source, target, mapping, SHOW_JSON));
 		}
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void testTemperatureAndHumidtyMapping() throws IOException, URISyntaxException {
 		testForList("temperatureHumidity.lst");
 	}
 
-	// @Ignore
+//	 @Ignore
 	@Test
 	public void testTemperatureAndHumidtyMapping2() throws IOException, URISyntaxException {
 		testForList("temperatureHumidity2.lst");
@@ -88,7 +87,7 @@ public class TestMapper {
 			for (String line2 : lines2) {
 				Collection<MappingDTO<Object, Object>> mappings = mapper.map(line, line2);
 				for (MappingDTO<Object, Object> mapping : mappings) {
-					printingService.mappingToString(line, line2, mapping, SHOW_JSON);
+					println(printingService.mappingToString(line, line2, mapping, SHOW_JSON));
 				}
 				println("--");
 			}

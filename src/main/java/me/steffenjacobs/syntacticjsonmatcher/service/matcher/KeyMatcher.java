@@ -2,7 +2,9 @@ package me.steffenjacobs.syntacticjsonmatcher.service.matcher;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
+import me.steffenjacobs.syntacticjsonmatcher.DebugSettings;
 import me.steffenjacobs.syntacticjsonmatcher.service.LanguageDetector;
+import me.steffenjacobs.syntacticjsonmatcher.service.PrintingService;
 import me.steffenjacobs.syntacticjsonmatcher.service.TranslationService;
 import me.steffenjacobs.syntacticjsonmatcher.util.MathUtil;
 
@@ -11,13 +13,15 @@ public class KeyMatcher {
 
 	private final LanguageDetector languageDetector;
 	private final TranslationService translationService;
+	private final PrintingService printingService = new PrintingService();
 
 	// penalty as multiplicator for result
-	private static final double PENALTY_TRANSLATION = .9;
+	private static final double PENALTY_TRANSLATION = .95;
 	private static final double PENALTY_SYNONYM = .9;
 
 	// penalty value when weighting with equal weights
 	private static final double PENALTY_WEIGHT_CONTAINS = 1;
+
 
 	public KeyMatcher() {
 
@@ -40,29 +44,33 @@ public class KeyMatcher {
 		}
 
 		// translate source and target to English if necessary
-		source = translateToEnglishIfNecessary(source);
-		target = translateToEnglishIfNecessary(target);
+		String sourceT = translateToEnglishIfNecessary(source);
+		String targetT = translateToEnglishIfNecessary(target);
 
 		// now they match
-		if (source.equals(target)) {
+		if (sourceT.equals(targetT)) {
+			print(source, target, PENALTY_TRANSLATION, "TRANSLATION");
 			return PENALTY_TRANSLATION;
 		}
 
 		// synonyms match -> 100% match
-		if (synonymMatch(source, target)) {
+		if (synonymMatch(sourceT, targetT)) {
 			return PENALTY_SYNONYM;
 		}
 
-		double levenstheinPercent = getLevenshteinPercent(source, target);
+		double levenshteinSimilarity = getLevenshteinSimilarity(sourceT, targetT);
 
-		if (containsAnyDirection(source, target)) {
+		if (containsAnyDirection(sourceT, targetT)) {
 			// penalize containsAnyDirection by including levenshtein distance,
 			// since it is less probable that e.g. 't' stands just for
 			// 'temperature'
-			return MathUtil.calculateWeightedResultWithEqualWeights(levenstheinPercent, PENALTY_WEIGHT_CONTAINS);
+			final double equallyWeightedLevenshtein = MathUtil.calculateWeightedResultWithEqualWeights(levenshteinSimilarity, PENALTY_WEIGHT_CONTAINS);
+			print(source, target, equallyWeightedLevenshtein, "LEVENSHTEIN CONTAINS");
+			return equallyWeightedLevenshtein;
 		}
 
-		return levenstheinPercent;
+		print(source, target, levenshteinSimilarity, "LEVENSHTEIN");
+		return levenshteinSimilarity;
 	}
 
 	private String translateToEnglishIfNecessary(String string) {
@@ -82,9 +90,14 @@ public class KeyMatcher {
 		return source.contains(target) || target.contains(source);
 	}
 
-	private double getLevenshteinPercent(String source, String target) {
+	private double getLevenshteinSimilarity(String source, String target) {
 		int levenshtein = LevenshteinDistance.getDefaultInstance().apply(source, target);
-		return levenshtein / (MathUtil.max(source.length(), target.length()));
+		return 1 - levenshtein / MathUtil.max(source.length(), target.length());
 	}
 
+	private void print(String source, String target, double value, String reason) {
+		if (DebugSettings.SHOW_DECISIONS) {
+			System.out.println(printingService.formatDecisionString(source, target, value, reason));
+		}
+	}
 }

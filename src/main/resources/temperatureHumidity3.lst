@@ -1,2 +1,2 @@
-{"tp": 25, "humedad": 55}
-{"temperatur": "25.1", "humidity": "55.1"}
+{"tp": "25.1°C", "humedad": "55.1%"}
+{"temp": 25.1, "Luftfeuchte": 55.1}

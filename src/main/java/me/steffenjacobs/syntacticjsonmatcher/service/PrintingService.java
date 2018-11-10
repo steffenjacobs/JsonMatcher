@@ -28,6 +28,19 @@ public class PrintingService {
 		}
 	}
 
+
+	public String formatDecisionString(String source, String target, double value, String reason) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(value);
+		sb.append(": (");
+		sb.append(reason);
+		sb.append(") ");
+		sb.append(source);
+		sb.append(" -> ");
+		sb.append(target);
+		return sb.toString();
+	}
+
 	/** @return Rhe average match rate for {@link #alternative}. */
 	private double calculateMatchRateForAlternative(Collection<MappingDTO<Object, Object>> alternative) {
 		double sumMatchRate = 0d;
