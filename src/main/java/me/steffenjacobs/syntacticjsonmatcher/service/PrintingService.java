@@ -60,6 +60,7 @@ public class PrintingService {
 			sb.append(target);
 			sb.append(": ");
 		}
+		sb.append("Confidence: ");
 		sb.append(nf.format(mapping.getMatchRate()));
 		sb.append(" ");
 		sb.append(mapping.getKeySource());
