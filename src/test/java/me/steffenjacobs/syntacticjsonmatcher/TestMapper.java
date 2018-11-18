@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,12 +125,6 @@ public class TestMapper {
 	@Test
 	public void testTemperatureHumidityPressureMapping() throws IOException, URISyntaxException {
 		testForList("TemperatureHumidityPressure.lst");
-	}
-
-	@Ignore
-	@Test
-	public void testTemperatureHumidityPressureMapping2() throws IOException, URISyntaxException {
-		testForList("TemperatureHumidityPressure2.lst");
 	}
 
 	private boolean isMappingAllowed(MappingDTO<Object, Object> mapping) {

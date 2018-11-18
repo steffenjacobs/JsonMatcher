@@ -69,11 +69,10 @@ public class TestMapperWithBigList {
 	@Test
 	public void testMapperWithBigList() throws IOException, URISyntaxException {
 		File f = new File("all.list");
-		if (f.exists()) {
-			f.delete();
-		}
 		new TestFileGenerator().generateFull("all.lst");
 		testForList("all.lst");
+
+		f.delete();
 	}
 
 	private boolean isMappingAllowed(MappingDTO<Object, Object> mapping) {
