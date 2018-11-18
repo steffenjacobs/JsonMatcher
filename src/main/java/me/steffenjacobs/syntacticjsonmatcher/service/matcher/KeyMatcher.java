@@ -21,13 +21,16 @@ public class KeyMatcher {
 	private final SynonymService synonymService = new SynonymService();
 
 	// penalty as multiplicator for result
-	private static final double PENALTY_TRANSLATION = .95;
-	private static final double PENALTY_SYNONYM = .9;
+	private static final double PENALTY_TRANSLATION = .9;
+	private static final double PENALTY_SYNONYM = .89;
 	private static final double PENALTY_LEVENSHTEIN = .5;
+	private static final double PENALTY_EQUALS = 1;
+	private static final double PENALTY_NULL = 0;
 
 	// penalty value when weighting with equal weights
-	private static final double PENALTY_WEIGHT_CONTAINS = .97;
+	private static final double PENALTY_WEIGHT_CONTAINS = .93;
 	private static final double PENALTY_WEIGHT_STARTS_WITH = 1;
+	private static final double PENALTY_WEIGHT_LEVENSHTEIN = .3;
 
 	public KeyMatcher() {
 
@@ -41,16 +44,19 @@ public class KeyMatcher {
 
 	public double matchKeys(String source, String target) {
 		if (source == target) {
-			return 1;
+			return PENALTY_EQUALS;
 		}
 
 		if (source == null || target == null) {
-			return 0;
+			return PENALTY_NULL;
 		}
 
+		source = source.toLowerCase();
+		target = target.toLowerCase();
+		
 		// both keys are equal -> 100% match
 		if (source.equals(target)) {
-			return 1;
+			return PENALTY_EQUALS;
 		}
 
 		// translate source and target to English if necessary
@@ -77,18 +83,19 @@ public class KeyMatcher {
 		}
 
 		double levenshteinSimilarity = getLevenshteinSimilarity(sourceT, targetT);
-		
-		//starts with
+
+		// starts with
 		if (startsWithAnyDirection(sourceT, targetT)) {
 			// penalize similar to containsAnyDirection
-			final double equallyWeightedLevenshtein = MathUtil.calculateWeightedResultWithEqualWeights(levenshteinSimilarity, PENALTY_WEIGHT_STARTS_WITH);
+			final double equallyWeightedLevenshtein = MathUtil.calculateWeightedResult(new Pair<>(levenshteinSimilarity, PENALTY_WEIGHT_LEVENSHTEIN),
+					new Pair<>(PENALTY_WEIGHT_STARTS_WITH, 1d));
 			if (equallyWeightedLevenshtein > score) {
 				score = equallyWeightedLevenshtein;
 				print(source, target, equallyWeightedLevenshtein, "LEVENSHTEIN STARTS WITH");
 			}
 		}
-		
-		//contains
+
+		// contains
 		if (containsAnyDirection(sourceT, targetT)) {
 			// penalize containsAnyDirection by including levenshtein distance,
 			// since it is less probable that e.g. 't' stands just for
@@ -99,7 +106,7 @@ public class KeyMatcher {
 				print(source, target, equallyWeightedLevenshtein, "LEVENSHTEIN CONTAINS");
 			}
 		}
-		
+
 		double penalizedLevenshteinScore = levenshteinSimilarity * PENALTY_LEVENSHTEIN;
 
 		if (score == 0 && penalizedLevenshteinScore > score) {
@@ -128,7 +135,7 @@ public class KeyMatcher {
 
 	private double synonymMatch(String source, String target) {
 		double result = penalizePossibleSynonym(target, source);
-		return result > 0 ? result : penalizePossibleSynonym(source, target);
+		return result;
 	}
 
 	private double penalizePossibleSynonym(final String source, final String target) {
@@ -140,7 +147,11 @@ public class KeyMatcher {
 					max = entr.getValue();
 				}
 			}
-			return PENALTY_SYNONYM * (synonymsSource.get(target) / (double)max);
+			double penaltyFromDissimilarity = synonymsSource.get(target) / (double) max;
+			
+			//fix for strange outliers in datamuseAPI
+			penaltyFromDissimilarity = penaltyFromDissimilarity < .1 ? 1: penaltyFromDissimilarity;
+			return PENALTY_SYNONYM * penaltyFromDissimilarity;
 		}
 		return 0;
 	}
