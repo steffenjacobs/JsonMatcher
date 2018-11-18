@@ -28,7 +28,6 @@ public class PrintingService {
 		}
 	}
 
-
 	public String formatDecisionString(String source, String target, double value, String reason) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(value);
@@ -61,7 +60,7 @@ public class PrintingService {
 			sb.append(": ");
 		}
 		sb.append("Confidence: ");
-		sb.append(nf.format(mapping.getMatchRate()));
+		sb.append(nf.format(1 - mapping.getMatchRate()));
 		sb.append(" ");
 		sb.append(mapping.getKeySource());
 		sb.append(" -> ");

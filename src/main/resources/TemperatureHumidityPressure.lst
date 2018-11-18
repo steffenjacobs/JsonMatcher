@@ -1,0 +1,11 @@
+{"temperature": 25, "humidity": 55, "pressure": 905}
+{"temperature": 25.1, "humidity": 55, "pressione": "905.5"}
+{"temperature": "25", "humidity": 55, "pressure": 905.5}
+{"temperature": "25.1", "humidity": 55, "pressure": "905.5psi"}
+{"temperature": "25°C", "humidity": 55, "druck": "905.5psi"}
+{"temperature": "25°F", "humidity": 55, "Luftdruck": "905.5psi"}
+{"temperature": "25.1°C", "humidity": 55, "pressione": "905.5"}
+{"t": "25.1°C", "h": 55, "p": "905.5"}
+{"tp": "25.1°C", "hum": 55, "pre": "905.5"}
+{"temp": "25.1°C", "humidity": 55, "pressure": "905.5"}
+{"t": "25.1°C", "humidity": 55, "pressure": "905.5"}

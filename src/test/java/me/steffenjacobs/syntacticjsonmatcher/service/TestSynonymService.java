@@ -1,4 +1,4 @@
-package service;
+package me.steffenjacobs.syntacticjsonmatcher.service;
 
 import java.util.Map;
 

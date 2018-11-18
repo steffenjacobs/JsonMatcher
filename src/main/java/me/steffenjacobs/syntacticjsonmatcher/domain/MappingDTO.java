@@ -33,4 +33,20 @@ public class MappingDTO<S, T> {
 	public Function<S, T> getValueTransformation() {
 		return valueTransformation;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MappingDTO [keySource=");
+		builder.append(keySource);
+		builder.append(", keyTarget=");
+		builder.append(keyTarget);
+		builder.append(", matchRate=");
+		builder.append(matchRate);
+		builder.append(", valueTransformation=");
+		builder.append(valueTransformation);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

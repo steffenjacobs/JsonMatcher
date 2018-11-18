@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /** @author Steffen Jacobs */
-public class MathUtil {
+public final class MathUtil {
 
 	public static double max(double d1, double d2, double... doubles) {
 		double max = d1 > d2 ? d1 : d2;

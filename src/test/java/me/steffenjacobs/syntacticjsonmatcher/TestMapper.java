@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,7 @@ public class TestMapper {
 	public static void initAllowedMappings() {
 		List<String> allowedTemperatures = Arrays.asList("t", "tp", "temp", "temperature", "temperatura", "temperatur", "Temperatur");
 		List<String> allowedHumidities = Arrays.asList("h", "hm", "hum", "humidity", "Luftfeuchtigkeit", "Luftfeuchte", "luftfeuchte", "humedad");
+		List<String> allowedPressures = Arrays.asList("pressure", "pressione", "druck", "Luftdruck", "pr", "pre", "p");
 
 		for (String temp : allowedTemperatures) {
 			allowedMappings.put(temp, allowedTemperatures);
@@ -45,6 +47,10 @@ public class TestMapper {
 
 		for (String hum : allowedHumidities) {
 			allowedMappings.put(hum, allowedHumidities);
+		}
+
+		for (String pres : allowedPressures) {
+			allowedMappings.put(pres, allowedPressures);
 		}
 	}
 
@@ -116,6 +122,17 @@ public class TestMapper {
 		testForList("temperature.lst");
 	}
 
+	@Test
+	public void testTemperatureHumidityPressureMapping() throws IOException, URISyntaxException {
+		testForList("TemperatureHumidityPressure.lst");
+	}
+
+	@Ignore
+	@Test
+	public void testTemperatureHumidityPressureMapping2() throws IOException, URISyntaxException {
+		testForList("TemperatureHumidityPressure2.lst");
+	}
+
 	private boolean isMappingAllowed(MappingDTO<Object, Object> mapping) {
 		return allowedMappings.get(mapping.getKeySource()).contains(mapping.getKeyTarget());
 	}
@@ -138,7 +155,10 @@ public class TestMapper {
 						assertTrue(isMappingAllowed(mapping));
 					} catch (AssertionError error) {
 						if (PRINT_ERRORS) {
-							System.out.println("Bad mapping: " + mapping.getKeySource() + " -> " + mapping.getKeyTarget());
+							System.out.println("Bad mapping: " + mapping.getKeySource() + " -> " + mapping.getKeyTarget() + " (" + listFile + ")");
+							for (MappingDTO<Object, Object> m : mappings) {
+								System.out.println(printingService.mappingToString(line, line2, m, SHOW_JSON));
+							}
 							throw error;
 						}
 					}
