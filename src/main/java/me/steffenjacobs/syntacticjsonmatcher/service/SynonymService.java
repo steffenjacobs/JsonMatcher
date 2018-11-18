@@ -3,6 +3,7 @@ package me.steffenjacobs.syntacticjsonmatcher.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +19,12 @@ public class SynonymService {
 
 	private final HTTPRequester httpRequester = new HTTPRequester();
 
+	private final LRUMap synonymCache;
+
+	public SynonymService() {
+		synonymCache = new LRUMap(1000);
+	}
+
 	private String buildRequest(String word) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("https://api.datamuse.com/words?rel_syn=");
@@ -29,7 +36,12 @@ public class SynonymService {
 	 * @return a {@Link Set} of synonymous words with their corresponding score
 	 *         as assigned by datamuse.
 	 */
+	@SuppressWarnings("unchecked")
 	public Map<String, Integer> findSynonyms(String word) {
+
+		if (synonymCache.containsKey(word)) {
+			return (Map<String, Integer>) synonymCache.get(word);
+		}
 
 		Map<String, Integer> map = new HashMap<>();
 		String request = buildRequest(word);
@@ -37,6 +49,7 @@ public class SynonymService {
 		try {
 			JSONArray json = new JSONArray(result);
 			if (json.isEmpty()) {
+				synonymCache.put(word, map);
 				return map;
 			}
 
@@ -49,6 +62,7 @@ public class SynonymService {
 		} catch (JSONException e) {
 			LOG.info("Could not parse JSON: {}", e.getMessage());
 		}
+		synonymCache.put(word, map);
 		return map;
 	}
 }
