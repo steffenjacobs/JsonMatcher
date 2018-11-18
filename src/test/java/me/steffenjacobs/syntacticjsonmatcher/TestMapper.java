@@ -31,6 +31,7 @@ public class TestMapper {
 	private static final boolean SHOW_JSON = false;
 	private static final boolean PRINT = false;
 	private static final boolean PRINT_ERRORS = true;
+	/** More settings: see {@link DebugSettings} */
 
 	private static final Map<String, List<String>> allowedMappings = new HashMap<>();
 	private static final PrintingService printingService = new PrintingService();

@@ -140,7 +140,7 @@ public class KeyMatcher {
 					max = entr.getValue();
 				}
 			}
-			return PENALTY_SYNONYM * (synonymsSource.get(target) / max);
+			return PENALTY_SYNONYM * (synonymsSource.get(target) / (double)max);
 		}
 		return 0;
 	}

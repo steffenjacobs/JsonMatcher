@@ -16,12 +16,12 @@ public class SyntactivJsonMatcher {
 		System.out.println("* * * * by Steffen Jacobs, 2018 * * * * *");
 		System.out.println("* * * * * * * * * * * * * * * * * * * * *");
 		System.out.println();
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 
 		Mapper mapper = new Mapper();
 		PrintingService printingService = new PrintingService();
-		boolean running = true;
-		while (running) {
+		while (true) {
 			System.out.println("Please enter the first JSON String to match.");
 			System.out.print(">");
 			String json1 = scanner.nextLine();
@@ -35,8 +35,6 @@ public class SyntactivJsonMatcher {
 				System.out.println(printingService.mappingToString(json1, json2, mapping, false));
 			}
 		}
-
-		scanner.close();
 	}
 
 }

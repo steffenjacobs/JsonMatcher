@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 /** @author Steffen Jacobs */
 public final class MathUtil {
 
+	private MathUtil() {
+	}
+
 	public static double max(double d1, double d2, double... doubles) {
 		double max = d1 > d2 ? d1 : d2;
 		if (doubles.length > 0) {
@@ -32,7 +35,7 @@ public final class MathUtil {
 			weightedSum += pair.getA() * pair.getB();
 			weightsSum += pair.getB();
 		}
-		return weightedSum / weightsSum;
+		return weightedSum > 0 ? weightedSum / weightsSum : 1;
 	}
 
 }

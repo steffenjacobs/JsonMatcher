@@ -49,11 +49,11 @@ public class PrintingService {
 		return sumMatchRate / alternative.size();
 	}
 
-	public String mappingToString(String source, String target, MappingDTO<Object, Object> mapping, boolean SHOW_JSON) {
+	public String mappingToString(String source, String target, MappingDTO<Object, Object> mapping, boolean showJson) {
 		JSONObject jsonSource = new JSONObject(source);
 		JSONObject jsonTarget = new JSONObject(target);
 		StringBuilder sb = new StringBuilder();
-		if (SHOW_JSON) {
+		if (showJson) {
 			sb.append(source);
 			sb.append(" -> ");
 			sb.append(target);

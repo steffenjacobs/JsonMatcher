@@ -5,6 +5,9 @@ import java.util.function.Function;
 /** @author Steffen Jacobs */
 public final class MatrixUtils {
 
+	private MatrixUtils() {
+	}
+
 	public static double[][] deepCopy(double[][] array) {
 		double[][] copy = new double[array.length][];
 		for (int i = 0; i < array.length; i++) {
