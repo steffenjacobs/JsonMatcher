@@ -33,10 +33,9 @@ public class CachePersistingService {
 			sb.append(cache.get(e));
 			sb.append("\n");
 		}
-		File cacheLocation = new File(DISK_CACHE_LOCATION);
-		if (!cacheLocation.exists()) {
-			cacheLocation.mkdirs();
-		}
+
+		createDiskCacheLocationIfNecessary();
+
 		try (PrintWriter out = new PrintWriter(DISK_CACHE_LOCATION + file)) {
 			out.println(sb.toString());
 		} catch (FileNotFoundException e) {
@@ -44,8 +43,21 @@ public class CachePersistingService {
 		}
 	}
 
+	private void createDiskCacheLocationIfNecessary() {
+		File cacheLocation = new File(DISK_CACHE_LOCATION);
+		if (!cacheLocation.exists()) {
+			cacheLocation.mkdirs();
+		}
+	}
+
 	public void load(LRUMap cache, String file, Function<String, Object> keyTransformation, Function<String, Object> valueTransformation) {
 		try {
+			createDiskCacheLocationIfNecessary();
+			File f = new File(DISK_CACHE_LOCATION + file);
+			if (!f.exists()) {
+				LOG.info("No cache file found for cache {}. It will be created automatically.", file);
+				return;
+			}
 			List<String> lines = Files.readAllLines(Paths.get(DISK_CACHE_LOCATION, file));
 			for (String line : lines) {
 				if (!line.isEmpty()) {
