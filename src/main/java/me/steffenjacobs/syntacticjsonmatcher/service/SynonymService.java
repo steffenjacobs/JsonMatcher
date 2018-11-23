@@ -1,5 +1,7 @@
 package me.steffenjacobs.syntacticjsonmatcher.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +30,11 @@ public class SynonymService {
 	private String buildRequest(String word) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("https://api.datamuse.com/words?rel_syn=");
-		sb.append(word);
+		try {
+			sb.append(URLEncoder.encode(word, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			LOG.error(e.getMessage());
+		}
 		return sb.toString();
 	}
 
@@ -47,6 +53,10 @@ public class SynonymService {
 		String request = buildRequest(word);
 		String result = httpRequester.sendGet(request);
 		try {
+			if (result.isEmpty()) {
+				synonymCache.put(word, map);
+				return map;
+			}
 			JSONArray json = new JSONArray(result);
 			if (json.isEmpty()) {
 				synonymCache.put(word, map);

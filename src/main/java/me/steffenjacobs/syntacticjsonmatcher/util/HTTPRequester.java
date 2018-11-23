@@ -33,7 +33,7 @@ public class HTTPRequester {
 
 			return response.toString();
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
+			LOG.error(e.getMessage());
 			return "";
 		}
 	}
