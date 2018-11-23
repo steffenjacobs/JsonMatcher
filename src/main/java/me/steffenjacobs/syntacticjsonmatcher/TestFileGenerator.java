@@ -15,13 +15,13 @@ public class TestFileGenerator {
 	private static final String[] VALUES_HUMIDITY = new String[] { "44", "\"44\"", "\"44%\"", "44.4", "\"44.4%\"" };
 
 	private static final String[] KEYS_PRESSURE = new String[] { "pressure", "p", "pres", "air pressure", "druck", "Luftdruck", "pressione" };
-	private static final String[] VALUES_PRESSURE = new String[] { "905", "\"905\"", "905.5", "\"905ppi\"", "\"905.5ppi\"", "\"905.5bar\"" };
+	private static final String[] VALUES_PRESSURE = new String[] { "905", "\"905\"", "905.5", "\"905psi\"", "\"905.5psi\"", "\"905.5bar\"" };
 
 	private static final String[] KEYS_CO2 = new String[] { "co2", "CO2", "co2 value" };
 	private static final String[] VALUES_CO2 = new String[] { "505", "505.5", "\"505ppm\"" };
 
 	private static final String[] KEYS_LIGHT = new String[] { "light", "brightness", "Helligkeit", "luminance" };
-	private static final String[] VALUES_LIGHT = new String[] { "1505", "1505.5", "\"1505lx\"", "\"1505lm\"" };
+	private static final String[] VALUES_LIGHT = new String[] { "1505", "1505.5", "\"1505lx\"", "\"1505phots\"" };
 
 	private static final double RANDOM_SAMPLING_RATE = .00008;
 

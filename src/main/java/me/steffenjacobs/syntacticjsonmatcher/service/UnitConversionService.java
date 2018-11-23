@@ -46,9 +46,14 @@ public class UnitConversionService {
 			return (String) conversionCache.get(key);
 		} else {
 			String request = buildRequest(source, unit);
-			String result = httpRequester.sendGet(request);
+			String oldresult = httpRequester.sendGet(request);
+			String result = "";
 			try {
-				result = extractResult(result, unit);
+				result = extractResult(oldresult, source, unit);
+				if (result == null) {
+					conversionCache.put(key, source);
+					return source;
+				}
 				result = cleanResult(result);
 			} catch (JAXBException e) {
 				LOG.error(e.getMessage());
@@ -69,7 +74,7 @@ public class UnitConversionService {
 		return extractedResult;
 	}
 
-	public String extractResult(String input, String unit) throws JAXBException {
+	public String extractResult(String input, String source, String unit) throws JAXBException {
 
 		JAXBContext jc = JAXBContext.newInstance(Queryresult.class);
 
@@ -79,7 +84,6 @@ public class UnitConversionService {
 		if (result.isSuccess()) {
 			for (Pod pod : result.getPod()) {
 				if ("Result".equals(pod.getId())) {
-
 					for (Subpod subpod : pod.getSubpod()) {
 						if (subpod != null && "".equals(subpod.getTitle())) {
 							return subpod.getPlaintext();
@@ -92,10 +96,11 @@ public class UnitConversionService {
 							return subpod.getPlaintext();
 						}
 					}
-					LOG.error("No result with correct converted unit in subpods not found.");
+					System.out.println(input);
+					LOG.error("No result with correct converted unit in subpods found.");
 				}
 			}
-			LOG.error("Result pod not found.");
+			LOG.error("No result found for conversion {} -> {}.", source, unit);
 		} else {
 			LOG.error("Query not successful.");
 		}

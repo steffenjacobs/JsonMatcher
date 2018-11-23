@@ -2,7 +2,7 @@
 // Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
 // Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2018.11.23 um 03:11:54 PM CET 
+// Generiert: 2018.11.23 um 06:16:42 PM CET 
 //
 
 
@@ -66,6 +66,7 @@ import javax.xml.bind.annotation.XmlType;
  *                 &lt;attribute name="position" type="{http://www.w3.org/2001/XMLSchema}int" />
  *                 &lt;attribute name="error" type="{http://www.w3.org/2001/XMLSchema}boolean" />
  *                 &lt;attribute name="numsubpods" type="{http://www.w3.org/2001/XMLSchema}int" />
+ *                 &lt;attribute name="primary" type="{http://www.w3.org/2001/XMLSchema}string" />
  *               &lt;/restriction>
  *             &lt;/complexContent>
  *           &lt;/complexType>
@@ -613,6 +614,7 @@ public class Queryresult {
      *       &lt;attribute name="position" type="{http://www.w3.org/2001/XMLSchema}int" />
      *       &lt;attribute name="error" type="{http://www.w3.org/2001/XMLSchema}boolean" />
      *       &lt;attribute name="numsubpods" type="{http://www.w3.org/2001/XMLSchema}int" />
+     *       &lt;attribute name="primary" type="{http://www.w3.org/2001/XMLSchema}string" />
      *     &lt;/restriction>
      *   &lt;/complexContent>
      * &lt;/complexType>
@@ -639,6 +641,8 @@ public class Queryresult {
         protected Boolean error;
         @XmlAttribute(name = "numsubpods")
         protected Integer numsubpods;
+        @XmlAttribute(name = "primary")
+        protected String primary;
 
         /**
          * Gets the value of the subpod property.
@@ -811,6 +815,30 @@ public class Queryresult {
          */
         public void setNumsubpods(Integer value) {
             this.numsubpods = value;
+        }
+
+        /**
+         * Ruft den Wert der primary-Eigenschaft ab.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getPrimary() {
+            return primary;
+        }
+
+        /**
+         * Legt den Wert der primary-Eigenschaft fest.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setPrimary(String value) {
+            this.primary = value;
         }
 
 
