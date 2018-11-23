@@ -4,10 +4,14 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.steffenjacobs.syntacticjsonmatcher.service.UnitConversionService;
+import me.steffenjacobs.syntacticjsonmatcher.util.Pair;
+
 /** @author Steffen Jacobs */
 public class ValueMatcher {
 
 	private static final Pattern PATTERN_NUMBER_WITHOUT_UNIT = Pattern.compile("(\\d*\\.?\\d+)");
+	private final UnitConversionService unitConversionService = new UnitConversionService();
 
 	public Function<Object, Object> matchValues(Object source, Object target) {
 
@@ -15,6 +19,22 @@ public class ValueMatcher {
 
 		// same types
 		if (source.getClass() == target.getClass()) {
+
+			// both strings
+			if (source instanceof String) {
+				// unit conversion possible
+				final Pair<Double, String> numberWithUnit = findNumberWithUnit((String) target);
+				if (numberWithUnit.getB() != null && !"".equals(numberWithUnit.getB())) {
+					return t -> {
+						final Pair<Double, String> numberWithUnitSrc = findNumberWithUnit((String) t);
+						if (!"".equals(numberWithUnitSrc.getB())) {
+							return unitConversionService.convert((String) t, numberWithUnit.getB());
+						}
+						return t;
+					};
+				}
+				return t -> t;
+			}
 			return t -> t;
 		}
 
@@ -40,7 +60,7 @@ public class ValueMatcher {
 					} catch (NumberFormatException e) {
 						// probably a unit in the string -> find number without
 						// unit
-						return findNumberWithoutUnit((String) t);
+						return findNumberWithUnit((String) t).getA();
 					}
 				};
 			} else {
@@ -50,7 +70,7 @@ public class ValueMatcher {
 					} catch (NumberFormatException e) {
 						// probably a unit in the string -> find number without
 						// unit
-						final double numberWithoutUnit = findNumberWithoutUnit((String) t);
+						final double numberWithoutUnit = findNumberWithUnit((String) t).getA();
 						return numberWithoutUnit != Double.NaN ? (long) numberWithoutUnit : -1l;
 					}
 				};
@@ -60,16 +80,16 @@ public class ValueMatcher {
 		}
 	}
 
-	private double findNumberWithoutUnit(String numberWithUnit) {
+	public Pair<Double, String> findNumberWithUnit(String numberWithUnit) {
 		Matcher matcher = PATTERN_NUMBER_WITHOUT_UNIT.matcher(numberWithUnit);
 		if (!matcher.find()) {
-			return Double.NaN;
+			return new Pair<>(Double.NaN, numberWithUnit);
 		}
 		String result = matcher.group(1);
 		try {
-			return Double.parseDouble(result);
+			return new Pair<>(Double.parseDouble(result), matcher.replaceFirst(""));
 		} catch (NumberFormatException e) {
-			return Double.NaN;
+			return new Pair<>(Double.NaN, numberWithUnit);
 		}
 	}
 
