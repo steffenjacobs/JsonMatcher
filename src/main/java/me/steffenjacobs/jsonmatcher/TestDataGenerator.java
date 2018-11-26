@@ -1,13 +1,11 @@
 package me.steffenjacobs.jsonmatcher;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /** @author Steffen Jacobs */
-public class TestFileGenerator {
+public class TestDataGenerator {
 	private static final String[] KEYS_TEMPERATURE = new String[] { "temperature", "temp", "t", "temperatura", "Temperatur", "temperatur" };
 	private static final String[] VALUES_TEMPERATURE = new String[] { "23", "\"23\"", "23.1", "\"23.1\"", "23°F", "23°C", "23.1°F" };
 
@@ -25,18 +23,14 @@ public class TestFileGenerator {
 
 	private static final double RANDOM_SAMPLING_RATE = .00008;
 
-	public static void main(String[] args) throws FileNotFoundException {
-		new TestFileGenerator().generateFull("all.lst");
-	}
-
-	public void generateFull(String filename) throws FileNotFoundException {
+	public List<String> generateSampled() {
 		Collection<String> temperature = getAllPermutations(KEYS_TEMPERATURE, VALUES_TEMPERATURE);
 		Collection<String> humidity = getAllPermutations(KEYS_HUMIDITY, VALUES_HUMIDITY);
 		Collection<String> pressure = getAllPermutations(KEYS_PRESSURE, VALUES_PRESSURE);
 		Collection<String> co2 = getAllPermutations(KEYS_CO2, VALUES_CO2);
 		Collection<String> light = getAllPermutations(KEYS_LIGHT, VALUES_LIGHT);
 
-		final PrintWriter printWriter = new PrintWriter(new File(filename));
+		final List<String> result = new LinkedList<>();
 
 		for (String temp : temperature) {
 			StringBuilder sbT = new StringBuilder("{");
@@ -59,7 +53,7 @@ public class TestFileGenerator {
 								StringBuilder sb = new StringBuilder(sbC);
 								sb.append(l);
 								sb.append("}");
-								printWriter.println(sb.toString());
+								result.add(sb.toString());
 							}
 						}
 					}
@@ -67,7 +61,7 @@ public class TestFileGenerator {
 			}
 		}
 
-		printWriter.close();
+		return result;
 	}
 
 	private Collection<String> getAllPermutations(String[] keys, String[] values) {

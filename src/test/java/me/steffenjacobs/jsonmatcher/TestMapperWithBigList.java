@@ -19,8 +19,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import me.steffenjacobs.jsonmatcher.Mapper;
-import me.steffenjacobs.jsonmatcher.TestFileGenerator;
 import me.steffenjacobs.jsonmatcher.domain.MappingDTO;
 import me.steffenjacobs.jsonmatcher.service.PrintingService;
 
@@ -70,23 +68,22 @@ public class TestMapperWithBigList {
 
 	@Test
 	public void testMapperWithBigList() throws IOException, URISyntaxException {
-		File f = new File("all.list");
-		new TestFileGenerator().generateFull("all.lst");
-		testForList("all.lst");
-
-		f.delete();
+		testForList(new TestDataGenerator().generateSampled());
 	}
 
 	private boolean isMappingAllowed(MappingDTO<Object, Object> mapping) {
 		return allowedMappings.get(mapping.getKeySource()).contains(mapping.getKeyTarget());
 	}
 
-	public void testForList(String listFile) throws IOException, URISyntaxException {
+	public void testForFile(String listFile) throws IOException, URISyntaxException {
+		testForList(Files.readAllLines(new File(listFile).toPath()));
+	}
+
+	public void testForList(List<String> lines) {
 
 		long countTotalMappings = 0;
 		long countErrors = 0;
 
-		List<String> lines = Files.readAllLines(new File(listFile).toPath());
 		lines = lines.stream().filter(l -> !"".equals(l)).collect(Collectors.toList());
 		List<String> lines2 = new ArrayList<>(lines);
 		LOG.info("Checking mapper for {} permutations...", lines.size() * lines2.size());
@@ -106,7 +103,7 @@ public class TestMapperWithBigList {
 					} catch (AssertionError error) {
 						countErrors++;
 						if (PRINT_ERRORS) {
-							System.out.println("Bad mapping: " + mapping.getKeySource() + " -> " + mapping.getKeyTarget() + " (" + listFile + ")");
+							System.out.println("Bad mapping: " + mapping.getKeySource() + " -> " + mapping.getKeyTarget());
 							for (MappingDTO<Object, Object> m : mappings) {
 								System.out.println(printingService.mappingToString(line, line2, m, SHOW_JSON));
 							}
