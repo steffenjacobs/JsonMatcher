@@ -17,7 +17,7 @@ public class JsonMatcher {
 		System.out.println("* * * * * * * * * * * * * * * * * * * * *");
 		System.out.println();
 		@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in, "UTF-8");
 
 		Mapper mapper = new Mapper();
 		PrintingService printingService = new PrintingService();
