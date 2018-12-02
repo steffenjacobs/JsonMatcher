@@ -71,7 +71,7 @@ public class TestMapperWithBigList {
 		testForList(new TestDataGenerator().generateSampled());
 	}
 
-	private boolean isMappingAllowed(MappingDTO<Object, Object> mapping) {
+	private boolean isMappingAllowed(MappingDTO<Object, Object> mapping) throws NullPointerException{
 		return allowedMappings.get(mapping.getKeySource()).contains(mapping.getKeyTarget());
 	}
 
@@ -100,7 +100,7 @@ public class TestMapperWithBigList {
 					println(printingService.mappingToString(line, line2, mapping, SHOW_JSON));
 					try {
 						assertTrue(isMappingAllowed(mapping));
-					} catch (AssertionError error) {
+					} catch (AssertionError  | NullPointerException error) {
 						countErrors++;
 						if (PRINT_ERRORS) {
 							System.out.println("Bad mapping: " + mapping.getKeySource() + " -> " + mapping.getKeyTarget());

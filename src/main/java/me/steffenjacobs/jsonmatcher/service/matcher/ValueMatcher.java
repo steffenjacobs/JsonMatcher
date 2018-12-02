@@ -15,8 +15,6 @@ public class ValueMatcher {
 
 	public Function<Object, Object> matchValues(Object source, Object target) {
 
-		// TODO handle unit in string and do conversion
-
 		// same types
 		if (source.getClass() == target.getClass()) {
 
